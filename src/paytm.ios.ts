@@ -3,13 +3,12 @@ import * as utils from "tns-core-modules/utils/utils";
 import { topmost } from "tns-core-modules/ui/frame";
 
 declare var PGTransactionViewController,
-    PGOrder,
     NSMutableDictionary,
     PGServerEnvironment,
+    PGOrder,
     ServerType,
     PGMerchantConfiguration,
-    ViewController,
-    PaymentsSDK;
+    ViewController;
 
 export interface Order {
     MID: string;
@@ -51,6 +50,10 @@ class PGTransactionDelegateImpl extends NSObject
     didFinishedResponse(controller, response) {
         console.log("in did finish response");
         transactionCallbacks.onTransactionResponse(response);
+    }
+
+    didFailTransaction(controller, error, response) {
+        transactionCallbacks.onErrorLoadingWebPage(error, response);
     }
 
     didCancelTransaction(controller, error, response) {
@@ -141,5 +144,3 @@ export class Paytm {
         );
     }
 }
-
-console.log(PaymentsSDK);

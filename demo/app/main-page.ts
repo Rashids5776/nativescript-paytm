@@ -11,6 +11,8 @@ export function pageLoaded(args: observable.EventData) {
 export function onPayWithPaytm(args: observable.EventData) {
     console.log("Paying");
     const order: Order = {
+        // This will fail saying duplicate order id
+        // generate your own order to test this.
         MID: "Tomcas09769922377481",
         ORDER_ID: "ORDER8874",
         CUST_ID: "CUST6483",
