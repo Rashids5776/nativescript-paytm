@@ -1,0 +1,1 @@
+pod "Paytm-Payments", :git => "https://github.com/Paytm-Payments/Paytm_iOS_App_Kit.git"

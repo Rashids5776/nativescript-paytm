@@ -19,8 +19,6 @@
         "noImplicitUseStrict": false,
         "noFallthroughCasesInSwitch": true
     },
-    "exclude": [
-        "node_modules"
-    ],
+    "exclude": ["node_modules", "platforms", "**/*.aot.ts", "typings"],
     "compileOnSave": false
 }
