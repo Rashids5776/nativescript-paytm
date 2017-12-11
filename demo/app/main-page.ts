@@ -11,17 +11,16 @@ export function pageLoaded(args: observable.EventData) {
 export function onPayWithPaytm(args: observable.EventData) {
     console.log("Paying");
     const order: Order = {
-        MID: "BfitTe21593236801620",
-        ORDER_ID: "TestOrder1",
-        CUST_ID: "mailshiva19@gmail.com",
+        MID: "Tomcas09769922377481",
+        ORDER_ID: "ORDER8874",
+        CUST_ID: "CUST6483",
         INDUSTRY_TYPE_ID: "Retail",
         CHANNEL_ID: "WAP",
-        TXN_AMOUNT: "1",
-        WEBSITE:
-            "https://play.google.com/store/apps/details?id=com.anygofitness.anygouser",
+        TXN_AMOUNT: "10.00",
+        WEBSITE: "APP_STAGING",
         CALLBACK_URL: "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp",
         CHECKSUMHASH:
-            "w2QDRMgp1/BNdEnJEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4="
+            "NDspZhvSHbq44K3A9Y4daf9En3l2Ndu9fmOdLG+bIwugQ6682Q3JiNprqmhiWAgGUnNcxta3LT2Vtk3EPwDww8o87A8tyn7/jAS2UAS9m+c="
     };
 
     paytm.createOrder(order);

@@ -8,7 +8,8 @@ declare var PGTransactionViewController,
     PGServerEnvironment,
     ServerType,
     PGMerchantConfiguration,
-    ViewController;
+    ViewController,
+    PaymentsSDK;
 
 export interface Order {
     MID: string;
@@ -140,3 +141,5 @@ export class Paytm {
         );
     }
 }
+
+console.log(PaymentsSDK);
