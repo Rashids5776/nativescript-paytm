@@ -1,3 +1,0 @@
-use_frameworks!
-platform :ios, '8.0'
-pod "Paytm-Payments", :git => "https://github.com/shiv19/Paytm_iOS_App_Kit.git", :submodules => true

@@ -47,21 +47,17 @@ class PGTransactionDelegateImpl extends NSObject
         return delegate;
     }
 
-    didFinishedResponse(controller, response) {
+    didFinishedResponseResponse(controller, response) {
         console.log("in did finish response");
         transactionCallbacks.onTransactionResponse(response);
     }
 
-    didFailTransaction(controller, error, response) {
-        transactionCallbacks.onErrorLoadingWebPage(error, response);
+    didCancelTrasaction(controller) {
+        transactionCallbacks.onTransactionCancel();
     }
 
-    didCancelTransaction(controller, error, response) {
-        transactionCallbacks.onTransactionCancel(error, response);
-    }
-
-    didFinishCASTransaction(controller, response) {
-        console.log(response);
+    errorMisssingParameterError(controller, error) {
+        console.log(error);
     }
 }
 
