@@ -26,10 +26,20 @@ export interface TransactionCallback {
     onTransactionCancel: Function;
 }
 
+export interface IOSCallback {
+    didFinishedResponse: Function;
+    didCancelTransaction: Function;
+    errorMissingParameterError: Function;
+}
+
 export class Paytm {
     private Service: com.paytm.pgsdk.PaytmPGService = null;
     private Certificate: com.paytm.pgsdk.PaytmClientCertificate = null;
     private paymentOrder: com.paytm.pgsdk.PaytmOrder;
+
+    setIOSCallbacks(callbacks: IOSCallback) {
+        // ignore it on android
+    }
 
     private setServiceType(type: string) {
         if (type === "PRODUCTION") {

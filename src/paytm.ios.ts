@@ -28,6 +28,13 @@ export interface TransactionCallback {
     onTransactionCancel: Function;
 }
 
+export interface IOSCallback {
+    // Don't blame me for the spelling mistakes
+    didFinishedResponse: Function;
+    didCancelTransaction: Function;
+    errorMissingParameterError: Function;
+}
+
 let transactionCallbacks;
 
 class PGTransactionDelegateImpl extends NSObject
@@ -43,19 +50,17 @@ class PGTransactionDelegateImpl extends NSObject
 
     didFinishedResponseResponse(controller, response) {
         console.log("in did finish response");
-        transactionCallbacks.onTransactionResponse(response);
+        transactionCallbacks.didFinishedResponse(response);
     }
 
     didCancelTrasaction(controller) {
         console.log("in did cancel response");
-
-        transactionCallbacks.onTransactionCancel();
+        transactionCallbacks.didCancelTransaction();
     }
 
     errorMisssingParameterError(controller, error) {
         console.log("in did error response");
-
-        console.log(error);
+        transactionCallbacks.errorMissingParameterError(error);
     }
 }
 
@@ -63,6 +68,10 @@ export class Paytm {
     txnController;
     paymentOrder;
     mc;
+
+    setIOSCallbacks(callbacks: IOSCallback) {
+        transactionCallbacks = callbacks;
+    }
 
     createOrder(order: Order) {
         if (
@@ -83,15 +92,14 @@ export class Paytm {
 
         const orderDict = {};
         orderDict["MID"] = order.MID;
-        orderDict["CHANNEL_ID"] = order.CHANNEL_ID;
-        orderDict["INDUSTRY_TYPE_ID"] = order.INDUSTRY_TYPE_ID;
-        orderDict["WEBSITE"] = order.WEBSITE;
-        orderDict["TXN_AMOUNT"] = order.TXN_AMOUNT;
         orderDict["ORDER_ID"] = order.ORDER_ID;
+        orderDict["CUST_ID"] = order.CUST_ID;
+        orderDict["INDUSTRY_TYPE_ID"] = order.INDUSTRY_TYPE_ID;
+        orderDict["CHANNEL_ID"] = order.CHANNEL_ID;
+        orderDict["TXN_AMOUNT"] = order.TXN_AMOUNT;
+        orderDict["WEBSITE"] = order.WEBSITE;
         orderDict["CALLBACK_URL"] = order.CALLBACK_URL;
         orderDict["CHECKSUMHASH"] = order.CHECKSUMHASH;
-        orderDict["REQUEST_TYPE"] = "DEFAULT";
-        orderDict["CUST_ID"] = order.CUST_ID;
 
         if (order.EMAIL) {
             orderDict["EMAIL"] = order.EMAIL;
@@ -126,7 +134,6 @@ export class Paytm {
     }
 
     startPaymentTransaction(transactionCallbacks: TransactionCallback) {
-        transactionCallbacks = transactionCallbacks;
         (topmost().ios
             .controller as UINavigationController).presentViewControllerAnimatedCompletion(
             this.txnController,

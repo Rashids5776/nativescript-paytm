@@ -20,10 +20,16 @@ export interface TransactionCallback {
     onBackPressedCancelTransaction: Function;
     onTransactionCancel: Function;
 }
+export interface IOSCallback {
+    didFinishedResponse: Function;
+    didCancelTransaction: Function;
+    errorMissingParameterError: Function;
+}
 export declare class Paytm {
     private Service;
     private Certificate;
     private paymentOrder;
+    setIOSCallbacks(callbacks: IOSCallback): void;
     createOrder(order: Order): void;
     setCertificate(password: string, filename: string): void;
     initialize(type: string): void;
