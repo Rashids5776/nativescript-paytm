@@ -1,6 +1,11 @@
 import * as observable from "tns-core-modules/data/observable";
 import * as pages from "tns-core-modules/ui/page";
-import { Paytm, Order, TransactionCallback } from "nativescript-paytm";
+import {
+    Paytm,
+    Order,
+    TransactionCallback,
+    IOSCallback
+} from "nativescript-paytm";
 
 const paytm = new Paytm();
 
@@ -10,6 +15,21 @@ export function pageLoaded(args: observable.EventData) {
 
 export function onPayWithPaytm(args: observable.EventData) {
     console.log("Paying");
+
+    paytm.setIOSCallbacks({
+        didFinishedResponse: function(response) {
+            console.log("got response");
+            console.log(response);
+        },
+        didCancelTransaction: function(error) {
+            console.log("got error");
+            console.log(Error);
+        },
+        errorMissingParameterError: function() {
+            console.log("some error occured");
+        }
+    });
+
     const order: Order = {
         // This will fail saying duplicate order id
         // generate your own order to test this.
