@@ -51,16 +51,37 @@ class PGTransactionDelegateImpl extends NSObject
     didFinishedResponseResponse(controller, response) {
         console.log("in did finish response");
         transactionCallbacks.didFinishedResponse(response);
+        (topmost().ios
+            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
+            true,
+            () => {
+                console.log("end of payment");
+            }
+        );
     }
 
     didCancelTrasaction(controller) {
         console.log("in did cancel response");
         transactionCallbacks.didCancelTransaction();
+        (topmost().ios
+            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
+            true,
+            () => {
+                console.log("end of payment");
+            }
+        );
     }
 
     errorMisssingParameterError(controller, error) {
         console.log("in did error response");
         transactionCallbacks.errorMissingParameterError(error);
+        (topmost().ios
+            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
+            true,
+            () => {
+                console.log("end of payment");
+            }
+        );
     }
 }
 
@@ -139,7 +160,7 @@ export class Paytm {
             this.txnController,
             true,
             () => {
-                console.log("end of payment");
+                console.log("User is making payment");
             }
         );
     }
