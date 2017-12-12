@@ -2,13 +2,7 @@ import * as app from "tns-core-modules/application";
 import * as utils from "tns-core-modules/utils/utils";
 import { topmost } from "tns-core-modules/ui/frame";
 
-declare var PGTransactionViewController,
-    NSMutableDictionary,
-    PGServerEnvironment,
-    PGOrder,
-    ServerType,
-    PGMerchantConfiguration,
-    ViewController;
+declare const eServerTypeProduction, eServerTypeStaging;
 
 export interface Order {
     MID: string;
@@ -38,7 +32,7 @@ let transactionCallbacks;
 
 class PGTransactionDelegateImpl extends NSObject
     implements PGTransactionDelegate {
-    public static ObjCProtocols = [PGTransactionDelegateImpl];
+    public static ObjCProtocols = [PGTransactionDelegate];
 
     private _owner;
     public static initWithOwner(owner): PGTransactionDelegateImpl {
@@ -53,17 +47,22 @@ class PGTransactionDelegateImpl extends NSObject
     }
 
     didCancelTrasaction(controller) {
+        console.log("in did cancel response");
+
         transactionCallbacks.onTransactionCancel();
     }
 
     errorMisssingParameterError(controller, error) {
+        console.log("in did error response");
+
         console.log(error);
     }
 }
 
 export class Paytm {
-    paymentOrder;
     txnController;
+    paymentOrder;
+    mc;
 
     createOrder(order: Order) {
         if (
@@ -100,33 +99,29 @@ export class Paytm {
         if (order.MOBILE_NO) {
             orderDict["MOBILE_NO"] = order.MOBILE_NO;
         }
+        this.mc = PGMerchantConfiguration.defaultConfiguration;
         this.paymentOrder = PGOrder.orderWithParams(<any>orderDict);
     }
 
     initialize(type: string) {
-        PGServerEnvironment.selectServerDialogCompletionHandler(
-            topmost().ios.controller.view,
-            () => {
-                this.txnController = PGTransactionViewController.alloc().initTransactionForOrder(
-                    this.paymentOrder
-                );
+        this.txnController = PGTransactionViewController.alloc().initTransactionForOrder(
+            this.paymentOrder
+        );
 
-                if (type === "PRODUCTION" || type === "STAGING") {
-                    this.txnController.serverType = type;
-                } else {
-                    throw new Error(
-                        "Paytm service type is invalid: It must be either PRODUCTION or STAGING"
-                    );
-                }
-                this.txnController.serverType = type;
-                this.txnController.merchant = utils.ios.getter(
-                    PGMerchantConfiguration,
-                    PGMerchantConfiguration.defaultConfiguration
-                );
-                this.txnController.delegate = PGTransactionDelegateImpl.initWithOwner(
-                    new WeakRef(this)
-                );
-            }
+        if (type === "PRODUCTION") {
+            this.txnController.serverType = eServerTypeProduction;
+        } else if (type === "STAGING") {
+            this.txnController.serverType = eServerTypeStaging;
+        } else {
+            throw new Error(
+                "Paytm service type is invalid: It must be either PRODUCTION or STAGING"
+            );
+        }
+
+        this.txnController.merchant = this.mc;
+
+        this.txnController.delegate = PGTransactionDelegateImpl.initWithOwner(
+            new WeakRef(this)
         );
     }
 
@@ -136,7 +131,9 @@ export class Paytm {
             .controller as UINavigationController).presentViewControllerAnimatedCompletion(
             this.txnController,
             true,
-            () => {}
+            () => {
+                console.log("end of payment");
+            }
         );
     }
 }
