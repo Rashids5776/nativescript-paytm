@@ -32,6 +32,25 @@ export interface IOSCallback {
     errorMissingParameterError: Function;
 }
 
+function bundleToJson(data: any) {
+    data = data.replace("Bundle[{", "");
+    data = data.replace("}]", "");
+    data = data.split(",");
+    var json = {};
+    for (var item of data) {
+        var key = item.split(/=(.+)/)[0].trim();
+        var value = item.split(/=(.+)/)[1];
+        if (value === undefined) {
+            key = key.slice(0, key.length - 1);
+            value = "";
+        } else {
+            value = value.trim();
+        }
+        json[key] = value;
+    }
+    return JSON.stringify(json);
+}
+
 export class Paytm {
     private Service: com.paytm.pgsdk.PaytmPGService = null;
     private Certificate: com.paytm.pgsdk.PaytmClientCertificate = null;
@@ -115,7 +134,7 @@ export class Paytm {
                 },
                 onTransactionResponse: function(inResponse: android.os.Bundle) {
                     transactionCallbacks.onTransactionResponse(
-                        inResponse.toString()
+                        bundleToJson(inResponse.toString())
                     );
                 },
                 networkNotAvailable: function() {
@@ -146,7 +165,7 @@ export class Paytm {
                 ) {
                     transactionCallbacks.onTransactionCancel(
                         inErrorMessage,
-                        inResponse.toString()
+                        this.bundleToJson(inResponse.toString())
                     );
                 }
             })

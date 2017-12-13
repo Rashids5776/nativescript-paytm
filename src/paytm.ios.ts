@@ -52,11 +52,8 @@ class PGTransactionDelegateImpl extends NSObject
         console.log("in did finish response");
         transactionCallbacks.didFinishedResponse(response);
         (topmost().ios
-            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
-            true,
-            () => {
-                console.log("end of payment");
-            }
+            .controller as UINavigationController).popViewControllerAnimated(
+            true
         );
     }
 
@@ -64,11 +61,8 @@ class PGTransactionDelegateImpl extends NSObject
         console.log("in did cancel response");
         transactionCallbacks.didCancelTransaction();
         (topmost().ios
-            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
-            true,
-            () => {
-                console.log("end of payment");
-            }
+            .controller as UINavigationController).popViewControllerAnimated(
+            true
         );
     }
 
@@ -76,11 +70,8 @@ class PGTransactionDelegateImpl extends NSObject
         console.log("in did error response");
         transactionCallbacks.errorMissingParameterError(error);
         (topmost().ios
-            .controller as UINavigationController).dismissViewControllerAnimatedCompletion(
-            true,
-            () => {
-                console.log("end of payment");
-            }
+            .controller as UINavigationController).popViewControllerAnimated(
+            true
         );
     }
 }
@@ -156,12 +147,9 @@ export class Paytm {
 
     startPaymentTransaction(transactionCallbacks: TransactionCallback) {
         (topmost().ios
-            .controller as UINavigationController).presentViewControllerAnimatedCompletion(
+            .controller as UINavigationController).pushViewControllerAnimated(
             this.txnController,
-            true,
-            () => {
-                console.log("User is making payment");
-            }
+            true
         );
     }
 }
