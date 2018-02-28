@@ -1,5 +1,8 @@
 # nativescript-paytm
 
+Works on Android and iOS.
+For use in India to pay via Paytm.
+
 ## Installation
 
 ```javascript
