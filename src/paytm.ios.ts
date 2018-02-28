@@ -49,7 +49,6 @@ class PGTransactionDelegateImpl extends NSObject
     }
 
     didFinishedResponseResponse(controller, response) {
-        console.log("in did finish response");
         transactionCallbacks.didFinishedResponse(response);
         (topmost().ios
             .controller as UINavigationController).popViewControllerAnimated(
@@ -58,7 +57,6 @@ class PGTransactionDelegateImpl extends NSObject
     }
 
     didCancelTrasaction(controller) {
-        console.log("in did cancel response");
         transactionCallbacks.didCancelTransaction();
         (topmost().ios
             .controller as UINavigationController).popViewControllerAnimated(
@@ -67,7 +65,6 @@ class PGTransactionDelegateImpl extends NSObject
     }
 
     errorMisssingParameterError(controller, error) {
-        console.log("in did error response");
         transactionCallbacks.errorMissingParameterError(error);
         (topmost().ios
             .controller as UINavigationController).popViewControllerAnimated(
