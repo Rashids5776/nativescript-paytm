@@ -5,7 +5,7 @@ import {
     Order,
     TransactionCallback,
     IOSCallback
-} from "nativescript-paytm";
+} from "@nstudio/nativescript-paytm";
 
 const paytm = new Paytm();
 
