@@ -21,12 +21,11 @@ export function onPayWithPaytm(args: observable.EventData) {
             console.log("got response");
             console.log(response);
         },
-        didCancelTransaction: function(error) {
-            console.log("got error");
-            console.log(error);
+        didCancelTransaction: function() {
+            console.log("User cancelled transaction");
         },
-        errorMissingParameterError: function() {
-            console.log("some error occured");
+        errorMissingParameterError: function(error) {
+            console.log(error);
         }
     });
 
