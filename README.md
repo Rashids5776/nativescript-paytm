@@ -6,7 +6,7 @@ For use in India to pay via Paytm.
 ## Installation
 
 ```javascript
-tns plugin add nativescript-paytm
+tns plugin add @nstudio/nativescript-paytm
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ import {
     Order,
     TransactionCallback,
     IOSCallback
-} from "nativescript-paytm";
+} from "@nstudio/nativescript-paytm";
 
 export function onPayWithPaytm(args: observable.EventData) {
     paytm.setIOSCallbacks({
@@ -85,6 +85,13 @@ export function onPayWithPaytm(args: observable.EventData) {
         }
     });
 }
+```
+
+## JavaScript
+Same as above, but the import statement will be
+
+```js
+const Paytm = require("@nstudio/nativescript-paytm").Paytm
 ```
 
 **NOTE:**
