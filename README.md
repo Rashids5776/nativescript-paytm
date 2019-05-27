@@ -1,3 +1,5 @@
+! Needs maintenance. PRs welcome.
+
 # nativescript-paytm
 
 Works on Android and iOS.
